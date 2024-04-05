@@ -1,10 +1,5 @@
 import streamlit as st  
-import sklearn
 import pickle 
-
-
-
-import numpy as np 
 
 # Loading the model from the storage to the code
 with open('Logistic Regression_model.pkl', 'rb') as f:
@@ -12,7 +7,6 @@ with open('Logistic Regression_model.pkl', 'rb') as f:
 
 #Title of the web app
 st.title("Credit Card Prediction App")
-
 
  # Define UI elements for user input
 gender = st.sidebar.radio('Gender', ['Male', 'Female'])
@@ -33,38 +27,34 @@ job_title = st.sidebar.number_input('Job title', min_value=0, step=1)
 family_member_count = st.sidebar.number_input('Family member count', min_value=0, step=1)
 account_age = st.sidebar.number_input('Account age', min_value=0, step=1)
 
+# Encode the user inputs
 encoded_data = {
+    'Gender': 1 if gender == 'Male' else 0,
+    'Has a car': 1 if has_car == 'Yes' else 0,
+    'Has a property': 1 if has_property == 'Yes' else 0,
+    'Children count': children_count,
+    'Income': income,
+    'Employment status': employment_status,
+    'Education level': education_level,
+    'Marital status': marital_status,
+    'Dwelling Age': dwelling_age,
+    'Employment length': employment_length,
+    'Has a mobile phone': 1 if has_mobile_phone == 'Yes' else 0,
+    'Has a work phone': 1 if has_work_phone == 'Yes' else 0,
+    'Has a phone': 1 if has_phone == 'Yes' else 0,
+    'Has an email': 1 if has_email == 'Yes' else 0,
+    'Job title': job_title,
+    'Family member count': family_member_count,
+    'Account age': account_age
+}
 
-    'Gender': 1 if data['Gender'] == 'Male' else 0,
-    'Has a car': 1 if data['Has a car'] == 'Yes' else 0,
-    'Has a property': 1 if data['Has a property'] == 'Yes' else 0,
-    'Children count': data['Children count'],
-    'Income': data['Income'],
-    'Employment status': data['Employment status'],
-    'Education level': data['Education level'],
-    'Marital status': data['Marital status'],
-    'Dwelling Age': data['Dwelling Age'],
-    'Employment length': data['Employment length'],
-    'Has a mobile phone': 1 if data['Has a mobile phone'] == 'Yes' else 0,
-    'Has a work phone': 1 if data['Has a work phone'] == 'Yes' else 0,
-    'Has a phone': 1 if data['Has a phone'] == 'Yes' else 0,
-    'Has an email': 1 if data['Has an email'] == 'Yes' else 0,
-    'Job title': data['Job title'],
-    'Family member count': data['Family member count'],
-    'Account age': data['Account age']
- }
-
-return encoded_data
-
-high risk_mapping = {0:'not high risk', 1: 'high risk'}
+high_risk_mapping = {0: 'not high risk', 1: 'high risk'}
 if st.button("Predict button"):
+    # Predict using the model
+    prediction = model.predict([list(encoded_data.values())])[0]
     
-    st.write(f"User input data is {ID,Gender,Has a car,Has a property,Children count,Income,Employment status,Education level,Marital status,Dwelling,Age,Employment length,Has a mobile phone,Has a work phone,Has a phone,Has an email,Job title,Family member count,Account age}")
-    st.write(f"The application is predicted to be {not_high_risk[0]}")
-    st.write(f"The application is predicted to be {high_risk[[0]]}")
+    # Map the prediction to human-readable form
+    prediction_text = high_risk_mapping[prediction]
     
-
-
-
-
-    
+    # Display the prediction
+    st.write(f"The application is predicted to be {prediction_text}")
