@@ -1,7 +1,7 @@
 import streamlit as st  
 import sklearn
 import pickle 
-!pip install numpy
+
 
 
 import numpy as np 
