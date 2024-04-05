@@ -56,7 +56,7 @@ encoded_data = {
 
 return encoded_data
 
-high risk_mapping = {0:'Not High Risk', 1: 'High Risk'}
+high risk_mapping = {0:'not high risk', 1: 'high risk'}
 if st.button("Predict button"):
     
     st.write(f"User input data is {ID,Gender,Has a car,Has a property,Children count,Income,Employment status,Education level,Marital status,Dwelling,Age,Employment length,Has a mobile phone,Has a work phone,Has a phone,Has an email,Job title,Family member count,Account age}")
